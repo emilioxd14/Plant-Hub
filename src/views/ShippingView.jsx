@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, MapPin, X, CheckCircle } from 'lucide-react';
 
 const ShippingView = () => {
-  const Maps = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const product = location.state?.product ?? { name: 'PlantHub Product', price: 0 };
 
@@ -22,7 +22,7 @@ const ShippingView = () => {
 
   const handleCloseOverlay = () => {
     setShowSuccess(false);
-    Maps('/');
+    navigate('/');
   };
 
   return (
@@ -30,7 +30,7 @@ const ShippingView = () => {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
         <button
-          onClick={() => Maps(-1)}
+          onClick={() => navigate(-1)}
           className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/70 hover:text-white"
           aria-label="Go back"
         >
