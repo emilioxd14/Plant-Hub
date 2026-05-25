@@ -7,7 +7,7 @@ const BillingView = () => {
   const location = useLocation();
 
   // Accept product passed from StoreView, or fall back to Pro subscription
-  const product = location.state?.product ?? {
+  const product = location.state?.product || {
     name: 'PlantHub Pro Subscription',
     price: 9.99,
     tagline: 'AI Care Insights — Monthly',

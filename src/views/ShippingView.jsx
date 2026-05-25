@@ -5,7 +5,7 @@ import { ArrowLeft, MapPin, X, CheckCircle } from 'lucide-react';
 const ShippingView = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const product = location.state?.product ?? { name: 'PlantHub Product', price: 0 };
+  const product = location.state?.product || { name: 'PlantHub Product', price: 0 };
 
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
