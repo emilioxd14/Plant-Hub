@@ -164,14 +164,14 @@ const StoreView = () => {
                 </ul>
 
                 {/* Price + CTA */}
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5 relative z-40">
                   <div>
                     <span className="text-2xl font-outfit font-bold text-white">${product.price.toFixed(2)}</span>
                     <span className="text-white/40 font-space text-xs ml-1">one-time</span>
                   </div>
                   <button
                     onClick={() => navigate('/billing', { state: { product } })}
-                    className={`px-5 py-2 rounded-xl font-outfit font-semibold text-dark-bg transition-all duration-200 ${colors.btn}`}
+                    className={`relative z-50 cursor-pointer px-5 py-2 rounded-xl font-outfit font-semibold text-dark-bg transition-all duration-200 ${colors.btn}`}
                   >
                     Buy Now
                   </button>
