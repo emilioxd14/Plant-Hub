@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { usePlants } from '../context/PlantContext';
-import GlobalStatusBadge from '../components/GlobalStatusBadge';
 import PlantCard from '../components/PlantCard';
 import AddPlantFab from '../components/AddPlantFab';
 import AddPlantModal from '../components/AddPlantModal';
@@ -49,7 +48,6 @@ const HubView = () => {
           </h1>
           <p className="font-space text-xs text-white/50">Unified Botanical Telemetry</p>
         </div>
-        <GlobalStatusBadge />
       </header>
 
       {/* Main Content */}
