@@ -4,10 +4,40 @@ import GlobalStatusBadge from '../components/GlobalStatusBadge';
 import PlantCard from '../components/PlantCard';
 import AddPlantFab from '../components/AddPlantFab';
 import AddPlantModal from '../components/AddPlantModal';
+import AlertBanner from '../components/AlertBanner';
 
 const HubView = () => {
   const { plants } = usePlants();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const getAlerts = () => {
+    const activeAlerts = [];
+    plants.forEach(plant => {
+      const { currentTelemetry: t, optimalThresholds: o } = plant;
+      
+      // moisture
+      if (t.moisture < o.moisture.min) {
+        activeAlerts.push(`${plant.name}: Moisture is critically low (${t.moisture}% < optimal ${o.moisture.min}%)`);
+      } else if (t.moisture > o.moisture.max) {
+        activeAlerts.push(`${plant.name}: Moisture is warning high (${t.moisture}% > optimal ${o.moisture.max}%)`);
+      }
+      
+      // light
+      if (t.light < o.light.min) {
+        activeAlerts.push(`${plant.name}: Light level is critically low (${t.light}lx < optimal ${o.light.min}lx)`);
+      } else if (t.light > o.light.max) {
+        activeAlerts.push(`${plant.name}: Light level is warning high (${t.light}lx > optimal ${o.light.max}lx)`);
+      }
+      
+      // temperature
+      if (t.temperature < o.temperature.min) {
+        activeAlerts.push(`${plant.name}: Temperature is critically low (${t.temperature}°C < optimal ${o.temperature.min}°C)`);
+      } else if (t.temperature > o.temperature.max) {
+        activeAlerts.push(`${plant.name}: Temperature is warning high (${t.temperature}°C > optimal ${o.temperature.max}°C)`);
+      }
+    });
+    return activeAlerts;
+  };
 
   return (
     <div className="min-h-screen bg-dark-bg text-white pb-24">
@@ -24,6 +54,8 @@ const HubView = () => {
 
       {/* Main Content */}
       <main className="px-6 py-8 max-w-7xl mx-auto">
+        <AlertBanner alerts={getAlerts()} />
+        
         {plants.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64 text-white/40">
             <p className="font-outfit text-lg">No plants initialized.</p>
