@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CreditCard, ShieldCheck, Loader2, ArrowLeft } from 'lucide-react';
 
 const BillingView = () => {
-  const navigate = useNavigate();
+  const Maps = useNavigate();
   const location = useLocation();
 
   // Accept product passed from StoreView, or fall back to Pro subscription
@@ -46,12 +46,12 @@ const BillingView = () => {
   };
 
   // --- SECURITY: e.preventDefault() prevents URL data leakage ---
-  const handleCheckout = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsProcessing(true);
 
     setTimeout(() => {
-      navigate('/shipping', { state: { product } });
+      Maps('/shipping', { state: { product: location.state?.product } });
     }, 1500);
   };
 
@@ -60,7 +60,7 @@ const BillingView = () => {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => Maps(-1)}
           className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/70 hover:text-white"
           aria-label="Go back"
         >
@@ -90,7 +90,7 @@ const BillingView = () => {
         <div className="bg-plant-card border border-soft-gold/20 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-soft-gold/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
 
-          <form onSubmit={handleCheckout} className="space-y-5" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             {/* Cardholder Name */}
             <div>
               <label className="block font-space text-xs text-white/70 mb-1" htmlFor="cardName">

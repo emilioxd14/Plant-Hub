@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, MapPin, X, CheckCircle } from 'lucide-react';
 
 const ShippingView = () => {
-  const navigate = useNavigate();
+  const Maps = useNavigate();
   const location = useLocation();
   const product = location.state?.product ?? { name: 'PlantHub Product', price: 0 };
 
@@ -15,14 +15,14 @@ const ShippingView = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   // SECURITY: e.preventDefault() to prevent PII leakage via URL
-  const handleShipping = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setShowSuccess(true);
   };
 
   const handleCloseOverlay = () => {
     setShowSuccess(false);
-    navigate('/');
+    Maps('/');
   };
 
   return (
@@ -30,7 +30,7 @@ const ShippingView = () => {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => Maps(-1)}
           className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/70 hover:text-white"
           aria-label="Go back"
         >
@@ -65,7 +65,7 @@ const ShippingView = () => {
             <h2 className="font-outfit text-white font-semibold">Delivery Information</h2>
           </div>
 
-          <form onSubmit={handleShipping} className="space-y-5" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             {/* Full Name */}
             <div>
               <label className="block font-space text-xs text-white/70 mb-1" htmlFor="fullName">

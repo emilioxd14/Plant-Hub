@@ -91,18 +91,14 @@ const colorMap = {
 };
 
 const StoreView = () => {
-  const navigate = useNavigate();
-
-  const handleBuyNow = (product) => {
-    navigate('/billing', { state: { product } });
-  };
+  const Maps = useNavigate();
 
   return (
     <div className="min-h-screen bg-dark-bg text-white pb-24">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => Maps('/')}
           className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/70 hover:text-white"
           aria-label="Go back"
         >
@@ -174,7 +170,7 @@ const StoreView = () => {
                     <span className="text-white/40 font-space text-xs ml-1">one-time</span>
                   </div>
                   <button
-                    onClick={() => handleBuyNow(product)}
+                    onClick={() => Maps('/billing', { state: { product } })}
                     className={`px-5 py-2 rounded-xl font-outfit font-semibold text-dark-bg transition-all duration-200 ${colors.btn}`}
                   >
                     Buy Now
