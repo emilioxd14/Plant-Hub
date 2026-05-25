@@ -7,11 +7,20 @@ export const usePlants = () => useContext(PlantContext);
 
 export const PlantProvider = ({ children }) => {
   const [plants, setPlants] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isProMember, setIsProMember] = useState(false);
   
   // Initialize with mock plants
   useEffect(() => {
     setPlants(mockPlants);
   }, []);
+
+  const login = () => setIsAuthenticated(true);
+  const logout = () => {
+    setIsAuthenticated(false);
+    setIsProMember(false);
+  };
+  const upgradeToPro = () => setIsProMember(true);
 
   const addPlant = (newPlant) => {
     setPlants((prev) => [...prev, newPlant]);
@@ -41,7 +50,16 @@ export const PlantProvider = ({ children }) => {
   };
 
   return (
-    <PlantContext.Provider value={{ plants, addPlant, getGlobalStatus }}>
+    <PlantContext.Provider value={{ 
+      plants, 
+      addPlant, 
+      getGlobalStatus,
+      isAuthenticated,
+      isProMember,
+      login,
+      logout,
+      upgradeToPro
+    }}>
       {children}
     </PlantContext.Provider>
   );

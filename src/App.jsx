@@ -2,12 +2,38 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HubView from './views/HubView';
 import DetailView from './views/DetailView';
+import LoginView from './views/LoginView';
+import BillingView from './views/BillingView';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HubView />} />
-      <Route path="/plant/:id" element={<DetailView />} />
+      <Route path="/login" element={<LoginView />} />
+      <Route 
+        path="/" 
+        element={
+          <ProtectedRoute>
+            <HubView />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/plant/:id" 
+        element={
+          <ProtectedRoute>
+            <DetailView />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/billing" 
+        element={
+          <ProtectedRoute>
+            <BillingView />
+          </ProtectedRoute>
+        } 
+      />
     </Routes>
   );
 }
