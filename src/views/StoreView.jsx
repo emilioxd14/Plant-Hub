@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Zap, Cpu, Layers } from 'lucide-react';
 
 const PRODUCTS = [
@@ -169,12 +169,13 @@ const StoreView = () => {
                     <span className="text-2xl font-outfit font-bold text-white">${product.price.toFixed(2)}</span>
                     <span className="text-white/40 font-space text-xs ml-1">one-time</span>
                   </div>
-                  <button
-                    onClick={() => navigate('/billing', { state: { product } })}
-                    className={`relative z-50 cursor-pointer px-5 py-2 rounded-xl font-outfit font-semibold text-dark-bg transition-all duration-200 ${colors.btn}`}
+                  <Link
+                    to="/billing"
+                    state={{ product: product }}
+                    className={`flex items-center justify-center relative z-50 cursor-pointer px-5 py-2 rounded-xl font-outfit font-semibold text-dark-bg transition-all duration-200 ${colors.btn}`}
                   >
                     Buy Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             );
