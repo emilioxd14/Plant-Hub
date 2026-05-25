@@ -4,6 +4,7 @@ import HubView from './views/HubView';
 import DetailView from './views/DetailView';
 import LoginView from './views/LoginView';
 import BillingView from './views/BillingView';
+import StoreView from './views/StoreView';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -23,6 +24,14 @@ function App() {
         element={
           <ProtectedRoute>
             <DetailView />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/store" 
+        element={
+          <ProtectedRoute>
+            <StoreView />
           </ProtectedRoute>
         } 
       />

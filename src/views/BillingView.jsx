@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { usePlants } from '../context/PlantContext';
 import { CreditCard, ShieldCheck, Loader2, ArrowLeft } from 'lucide-react';
 
@@ -15,6 +15,9 @@ const BillingView = () => {
   
   const { upgradeToPro } = usePlants();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const product = location.state?.product || { name: 'Hardware Checkout', price: 0 };
 
   // Masking logic on blur
   const handleCardNumberBlur = () => {
@@ -42,7 +45,11 @@ const BillingView = () => {
     setTimeout(() => {
       setIsProcessing(false);
       setIsSuccess(true);
-      upgradeToPro();
+      
+      // We can trigger an upgrade or simply complete the purchase
+      if (product.name.includes('Pro')) {
+        upgradeToPro();
+      }
 
       // Redirect after success message
       setTimeout(() => {
@@ -56,14 +63,14 @@ const BillingView = () => {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center gap-4">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/store')}
           className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/70 hover:text-white"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
           <h1 className="text-xl font-outfit font-bold tracking-tight text-white flex items-center gap-2">
-            Upgrade to <span className="text-soft-gold">Pro</span>
+            Secure <span className="text-emerald">Checkout</span>
           </h1>
         </div>
       </header>
@@ -73,18 +80,18 @@ const BillingView = () => {
         {isSuccess && (
           <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-dark-bg/90 backdrop-blur-md rounded-3xl animate-fade-in border border-emerald/30 shadow-[0_0_50px_rgba(16,185,129,0.2)]">
             <ShieldCheck className="w-16 h-16 text-emerald mb-4 animate-bounce" />
-            <h2 className="text-2xl font-outfit font-bold text-white mb-2">Payment Successful</h2>
-            <p className="font-space text-emerald">Welcome to PlantHub Pro AI.</p>
+            <h2 className="text-2xl font-outfit font-bold text-white mb-2">Order Confirmed</h2>
+            <p className="font-space text-emerald">Your {product.name} is being prepared.</p>
           </div>
         )}
 
-        <div className="bg-plant-card border border-soft-gold/20 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div className="bg-plant-card border border-emerald/20 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
            {/* Decorative Element */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-soft-gold/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
 
           <div className="mb-8">
-            <h2 className="text-2xl font-outfit font-bold text-white mb-2">Secure Checkout</h2>
-            <p className="font-space text-sm text-white/50">Unlock advanced AI Care Insights and automated scheduling for $9.99/mo.</p>
+            <h2 className="text-2xl font-outfit font-bold text-white mb-2">Order Details</h2>
+            <p className="font-space text-sm text-white/50">Purchasing: <span className="text-white font-medium">{product.name}</span></p>
           </div>
 
           <form onSubmit={handleCheckout} className="space-y-5">
@@ -97,7 +104,7 @@ const BillingView = () => {
                 required
                 value={cardName}
                 onChange={(e) => setCardName(e.target.value)}
-                className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-soft-gold/50 focus:ring-1 focus:ring-soft-gold/50 transition-all"
+                className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/50 transition-all"
                 placeholder="Jane Doe"
               />
             </div>
@@ -116,7 +123,7 @@ const BillingView = () => {
                   onChange={handleCardNumberChange}
                   onFocus={handleCardNumberFocus}
                   onBlur={handleCardNumberBlur}
-                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 pl-10 text-white font-space focus:outline-none focus:border-soft-gold/50 focus:ring-1 focus:ring-soft-gold/50 transition-all"
+                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 pl-10 text-white font-space focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/50 transition-all"
                   placeholder="•••• •••• •••• ••••"
                 />
               </div>
@@ -132,7 +139,7 @@ const BillingView = () => {
                   required
                   value={expiry}
                   onChange={(e) => setExpiry(e.target.value)}
-                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-soft-gold/50 focus:ring-1 focus:ring-soft-gold/50 transition-all"
+                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/50 transition-all"
                   placeholder="MM/YY"
                 />
               </div>
@@ -145,7 +152,7 @@ const BillingView = () => {
                   required
                   value={cvv}
                   onChange={(e) => setCvv(e.target.value)}
-                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-soft-gold/50 focus:ring-1 focus:ring-soft-gold/50 transition-all"
+                  className="w-full bg-dark-bg/50 border border-white/10 rounded-xl py-2.5 px-4 text-white font-space focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/50 transition-all"
                   placeholder="•••"
                 />
               </div>
@@ -159,9 +166,9 @@ const BillingView = () => {
             <button
               type="submit"
               disabled={isProcessing || isSuccess}
-              className="w-full py-3 bg-soft-gold hover:bg-yellow-400 text-dark-bg font-outfit font-semibold rounded-xl transition-colors duration-300 shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:shadow-[0_0_25px_rgba(251,191,36,0.5)] flex justify-center items-center h-12 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-emerald hover:bg-cyber-mint text-dark-bg font-outfit font-semibold rounded-xl transition-colors duration-300 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] flex justify-center items-center h-12 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Process Payment - $9.99'}
+              {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : `Process Payment - $${product.price}`}
             </button>
           </form>
         </div>
